@@ -25,7 +25,7 @@ e.g.:
 
 Provides a list of train, bus, ferry stops matching the given string. (Minimum of 3 characters).
 
-## `/api/v1/StopDepartures/<Stop Departures>`
+## `/api/v1/StopDepartures/<Stop Code>`
 
 e.g.:
 - `https://www.metlink.org.nz/api/v1/StopDepartures/WELL`
