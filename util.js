@@ -19,7 +19,6 @@ function stopSearch(string, callback) {
         method: "GET"
     }).done(function (data) {
         let trainStop = data[0];
-        console.log(trainStop);
         callback(isNaN(trainStop.Sms) ? trainStop : null);
     }).fail(function (err) {
         callback(err.statusText);
@@ -86,7 +85,6 @@ function stopDepartures(stopCode, callback) {
         url: `https://www.metlink.org.nz/api/v1/StopDepartures/${stopCode}`,
         method: "GET"
     }).done(function (stopDepartures) {
-        console.log(stopDepartures);
         callback(stopDepartures);
     }).fail(function (err) {
         callback(err.statusText);
