@@ -1,8 +1,10 @@
+let gRoute;
+
 $(() => {
 
-    stopDepartures("HVL", serviceMap => {
-        console.log(serviceMap);
-    });
+    // stopDepartures("HVL", serviceMap => {
+    //     console.log(serviceMap);
+    // });
 
     // $("#queryForm").submit(function (e) {
     //     e.preventDefault();
@@ -26,3 +28,43 @@ $(() => {
     //     });
     // });
 });
+
+$(() => {
+    $(".radioButton").click(function () {
+        gRoute = $(this).attr("data-route");
+    });
+
+    //Get stations for a given line
+    $("#queryForm").submit(async function (e) {
+        e.preventDefault();
+        //This variable changes what notices are fetched
+        let veRef = '3333';
+        var stopsArray = [];
+        var stationFullNames = [];
+        var fullName = '';
+        let data = await $.ajax({
+            url: `https://www.metlink.org.nz/api/v1/ServiceMap/` + gRoute,
+            method: "GET"
+        });
+        let txt = '';
+        data.StopLocations.forEach(stopLocation => {
+            stopsArray.push(stopLocation.Sms.substring(0, 4));
+        });
+        var uniqueStops = [...new Set(stopsArray)];
+        let uniqueStopsPromise = uniqueStops.map(uniqueStop => {
+            return findFullStationName(uniqueStop);
+        });
+        let stationNames = await Promise.all(uniqueStopsPromise);
+        console.log(stationNames);
+        stationNames.forEach(station => { txt = txt.concat(`${station} <br>`); });
+        $("#stops").html(txt);
+    });
+});
+
+async function findFullStationName(station) {
+    var fullName = ""; let data = await $.ajax({
+        url: `https://www.metlink.org.nz/api/v1/StopDepartures/` + station,
+        method: "GET"
+    });
+    return data.Stop.Name;
+}

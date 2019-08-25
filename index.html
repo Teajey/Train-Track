@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Trainers</title>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="util.js"></script>
@@ -14,14 +16,35 @@
 
 <body>
     <form id="queryForm">
-        <select id="serviceLocationOptions">
-            <option value="HVL">HVL</option>
-            <option value="JVL">JVL</option>
-            <option value="KPL">KPL</option>
-            <option value="MEL">MEL</option>
-            <option value="WRL">WRL</option>
-        </select>
-        <button type="submit">Get</button>
+        <h2>Create Journey</h2>
+        <div class="routeButtonGroup">
+            <input type="radio" id="HVL" data-route="HVL" name="route" value="HVL"><label for="HVL" data-route="HVL"
+                class="radioButton">HVL</label>
+            <input type="radio" id="JVL" data-route="JVL" name="route" value="JVL"><label for="JVL" data-route="JVL"
+                class="radioButton">JVL</label>
+            <input type="radio" id="MEL" data-route="MEL" name="route" value="MEL"><label for="MEL" data-route="MEL"
+                class="radioButton">MEL</label>
+            <input type="radio" id="WRL" data-route="WRL" name="route" value="WRL"><label for="WRL" data-route="WRL"
+                class="radioButton">WRL</label>
+            <input type="radio" id="KPL" data-route="KPL" name="route" value="KPL"><label for="KPL" data-route="KPL"
+                class="radioButton">KPL</label>
+        </div>
+        <div>
+            <select placeholder="Start" class="selectInput" name="startStopSelector" id="startStopSelector">
+                <option disabled selected>Start</option>
+            </select>
+            <div class="directionButtons">
+                <input type="radio" id="Inbound" name="direction" value="Inbound"><label class="radioButton"
+                    for="Inbound">Inbound</label>
+
+                <input type="radio" id="Outbound" name="direction" value="Outbound"><label class="radioButton"
+                    for="Outbound">Outbound</label>
+            </div>
+            <div class="finishButtons">
+                <button type="submit">OK</button>
+                <button type="reset">Cancel</button>
+            </div>
+        </div>
     </form>
     <div id="result"></div>
 </body>
