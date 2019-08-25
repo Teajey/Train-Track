@@ -32,6 +32,18 @@ $(() => {
 $(() => {
     $(".radioButton").click(function () {
         gRoute = $(this).attr("data-route");
+
+        $.ajax({
+            url: `https://www.metlink.org.nz/api/v1/ServiceMap/MEL`,
+            method: "GET"
+        }).done(serviceMap => {
+            serviceMap.StopLocations.forEach(loc => {
+                findFullStationName(loc.Sms.substring(0, 4), stationName => {
+                    $("#startStopSelector").append(`<option>${stationName}</option>`);
+                });
+
+            });
+        });
     });
 
     //Get stations for a given line
@@ -55,16 +67,25 @@ $(() => {
             return findFullStationName(uniqueStop);
         });
         let stationNames = await Promise.all(uniqueStopsPromise);
-        console.log(stationNames);
+        let stationCode = {};
+        uniqueStops.forEach((stop, i) => {
+            stationCode[stationNames[i]] = stop;
+        });
         stationNames.forEach(station => { txt = txt.concat(`${station} <br>`); });
         $("#stops").html(txt);
+
+        stationNames.forEach(station => {
+            $("#startStopSelector").append(`<option>${station}</option>`);
+        });
     });
 });
 
-async function findFullStationName(station) {
-    var fullName = ""; let data = await $.ajax({
+function findFullStationName(station, callback) {
+    var fullName = "";
+    $.ajax({
         url: `https://www.metlink.org.nz/api/v1/StopDepartures/` + station,
         method: "GET"
+    }).done(data => {
+        callback(data.Stop.Name);
     });
-    return data.Stop.Name;
 }
